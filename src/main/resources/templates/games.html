@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>All Games</title>
+</head>
+<body>
+<div class="container">
+    <div class="text-center text-uppercase">
+        <h2>Spiloversigt</h2>
+    </div>
+    <div class="container">
+
+        <a href="/addGame"><button>Tilføj spil</button></a>
+        <a href="/addGamer"><button>Tilføj spiller</button></a>
+        <a href="/addReview"><button>Tilføj review</button></a>
+
+        <table class="table table-hover table-striped " style="border: 1px solid #ddd">
+            <tr>
+                <td>Spilnavn</td>
+                <td>Spillere</td>
+                <td>Reviewers</td>
+                <td></td>
+            </tr>
+            <tr th:each="game : ${games}">
+                <td th:text="${game.getTitle()}"></td>
+                <td>
+                    <span th:each="player : ${game.getPlayers()}">
+                        <span th:text="${player.getName() + ', '}"></span>
+                    </span>
+                </td>
+                <td>
+                    <form action="/review" method="post">
+                        <input type="hidden" th:id="${game.getId()}" name="gameID" th:value="${game.getId()}">
+                        <input type="submit" value="Se reviews!">
+                    </form>
+                </td>
+                <td>
+                    <form action="/editStats" method="post">
+                        <input type="hidden" th:id="${game.getId()}" name="gameID" th:value="${game.getId()}">
+                        <input type="submit" value="Redigér spil">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
